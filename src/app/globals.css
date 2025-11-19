@@ -1,26 +1,107 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* In Tailwind v4, you can define theme extensions directly here 
+  using the @theme block if needed. 
+*/
+@theme {
+  --color-background: #f2f2f2;
+  --color-foreground: #171717;
+  
+  /* We can extend animations here directly */
+  --animate-fade-in: fade-in 0.5s ease-in-out;
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Base Styles 
+  We use @layer base to ensure these load with the correct specificity 
+*/
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    
+    /* Subtle mesh gradient background */
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(220, 220, 255, 0.5) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(220, 255, 240, 0.5) 0px, transparent 50%);
+    background-attachment: fixed;
+    
+    /* v4 Font smoothing is usually enabled by default, but ensuring it here */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Utilities & Custom Component Styles 
+*/
+@layer utilities {
+  /* Modern Range Slider Styling */
+  .modern-range {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  /* The Track */
+  .modern-range::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 4px;
+    background: #e5e7eb; /* slate-200 */
+    border-radius: 9999px;
+  }
+
+  /* The Thumb */
+  .modern-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05);
+    margin-top: -8px; /* (trackHeight / 2) - (thumbHeight / 2) */
+    transition: transform 0.1s ease;
+  }
+
+  .modern-range::-webkit-slider-thumb:active {
+    transform: scale(0.95);
+  }
+
+  /* Firefox specific adjustments */
+  .modern-range::-moz-range-track {
+    width: 100%;
+    height: 4px;
+    background: #e5e7eb;
+    border-radius: 9999px;
+  }
+
+  .modern-range::-moz-range-thumb {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: white;
+    border: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05);
+    transition: transform 0.1s ease;
+  }
+
+  /* Custom Scrollbar */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #cbd5e1; /* slate-300 */
+    border-radius: 10px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8; /* slate-400 */
+  }
 }
