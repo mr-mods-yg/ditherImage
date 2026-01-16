@@ -1,107 +1,89 @@
 @import "tailwindcss";
 
-/* In Tailwind v4, you can define theme extensions directly here 
-  using the @theme block if needed. 
+/* In Tailwind v4, you can define theme extensions directly here
+  using the @theme block if needed.
 */
 @theme {
-  --color-background: #f2f2f2;
-  --color-foreground: #171717;
-  
-  /* We can extend animations here directly */
-  --animate-fade-in: fade-in 0.5s ease-in-out;
-  @keyframes fade-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
+  --color-background: #ffffff;
+  --color-foreground: #0f172a;
+  --color-accent: #020617;
+
+  --animate-in: in 0.3s ease-out;
+
+  @keyframes in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
 
-/* Base Styles 
-  We use @layer base to ensure these load with the correct specificity 
+/* Base Styles
+  We use @layer base to ensure these load with the correct specificity
 */
 @layer base {
   body {
-    background-color: var(--color-background);
+    background-color: #f8fafc;
     color: var(--color-foreground);
-    
-    /* Subtle mesh gradient background */
-    background-image: 
-      radial-gradient(at 0% 0%, rgba(220, 220, 255, 0.5) 0px, transparent 50%),
-      radial-gradient(at 100% 0%, rgba(220, 255, 240, 0.5) 0px, transparent 50%);
-    background-attachment: fixed;
-    
-    /* v4 Font smoothing is usually enabled by default, but ensuring it here */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
 }
 
-/* Utilities & Custom Component Styles 
+/* Utilities & Custom Component Styles
 */
 @layer utilities {
-  /* Modern Range Slider Styling */
+  .glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
   .modern-range {
     -webkit-appearance: none;
     appearance: none;
     background: transparent;
     cursor: pointer;
+    width: 100%;
   }
 
-  /* The Track */
   .modern-range::-webkit-slider-runnable-track {
     width: 100%;
-    height: 4px;
-    background: #e5e7eb; /* slate-200 */
+    height: 3px;
+    background: #e2e8f0;
     border-radius: 9999px;
   }
 
-  /* The Thumb */
   .modern-range::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    height: 20px;
-    width: 20px;
+    height: 14px;
+    width: 14px;
     border-radius: 50%;
-    background: white;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05);
-    margin-top: -8px; /* (trackHeight / 2) - (thumbHeight / 2) */
-    transition: transform 0.1s ease;
+    background: #020617;
+    margin-top: -5.5px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 0 0 rgba(2, 6, 23, 0.1);
   }
 
-  .modern-range::-webkit-slider-thumb:active {
-    transform: scale(0.95);
+  .modern-range:hover::-webkit-slider-thumb {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 6px rgba(2, 6, 23, 0.05);
   }
 
-  /* Firefox specific adjustments */
-  .modern-range::-moz-range-track {
-    width: 100%;
-    height: 4px;
-    background: #e5e7eb;
-    border-radius: 9999px;
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 
-  .modern-range::-moz-range-thumb {
-    height: 20px;
-    width: 20px;
-    border-radius: 50%;
-    background: white;
-    border: none;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05);
-    transition: transform 0.1s ease;
-  }
-
-  /* Custom Scrollbar */
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #cbd5e1; /* slate-300 */
-    border-radius: 10px;
-  }
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8; /* slate-400 */
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }

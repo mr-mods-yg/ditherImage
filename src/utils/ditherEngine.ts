@@ -1,6 +1,6 @@
 // utils/ditherEngine.ts
 
-export type DitherMethod = 'threshold' | 'random' | 'floyd' | 'atkinson' | 'bayer';
+export type DitherMethod = 'threshold' | 'random' | 'floyd' | 'atkinson' | 'bayer' | 'none';
 
 // Helper: Convert RGB to Luminance
 const getLuminance = (r: number, g: number, b: number) => 0.2126 * r + 0.7152 * g + 0.0722 * b;
@@ -61,6 +61,12 @@ export const processImage = (
       else if (method === 'bayer') {
         const threshold = (bayerMap4x4[y % 4][x % 4] / 16) * 255;
         const newPixel = oldPixel < threshold ? 0 : 255;
+        outputData[idx] = outputData[idx + 1] = outputData[idx + 2] = newPixel;
+        outputData[idx + 3] = 255;
+      }
+
+      else if (method === 'none') {
+        const newPixel = Math.max(0, Math.min(255, oldPixel));
         outputData[idx] = outputData[idx + 1] = outputData[idx + 2] = newPixel;
         outputData[idx + 3] = 255;
       }
